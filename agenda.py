@@ -10,7 +10,24 @@ POMODORO_WORK_MINUTES = 25
 POMODORO_SHORT_BREAK_MINUTES = 5
 POMODORO_LONG_BREAK_MINUTES = 15
 POMODOROS_BEFORE_LONG_BREAK = 4
-POINTS_PER_TASK = 10 # Points awarded for completing a task
+POINTS_PER_TASK = 10  # Points awarded for completing a task
+
+# --- Leveling System ---
+# Tiered level thresholds: (level, minimum_points)
+LEVEL_THRESHOLDS = [
+    (1, 0),
+    (2, 100),
+    (3, 250),
+    (4, 500),
+    (5, 1000),
+    (6, 2000),
+    (7, 3500),
+    (8, 5500),
+    (9, 8000),
+    (10, 11000),
+    (11, 15000),
+    (12, 20000),
+]  # Add more levels as desired, ensure they are sorted by points
 
 def clean_filename(userid):
     """Cleans the userid to create a safe filename."""
@@ -28,36 +45,31 @@ def load_tasks(userid):
     filename = clean_filename(userid)
     print(f"--- Loading data for user '{userid}' from {filename} ---")
 
-    default_user_info = {"userid": userid, "points": 0} # Default structure
+    default_user_info = {"userid": userid, "points": 0}
 
     if not os.path.exists(filename):
         print("No existing data file found for this user. Starting fresh.")
-        return [], default_user_info # Return empty tasks list and default info
+        return [], default_user_info
 
     try:
         with open(filename, 'r') as f:
             data = json.load(f)
 
-            # Check if data is in the new dictionary format or old list format
             if isinstance(data, dict) and "tasks" in data and "user_info" in data:
                 tasks_data = data.get("tasks", [])
                 user_info = data.get("user_info", default_user_info)
-                # Ensure points key exists in loaded user_info
                 if "points" not in user_info:
                     user_info["points"] = 0
-                if "userid" not in user_info: # Add userid if somehow missing
+                if "userid" not in user_info:
                     user_info["userid"] = userid
             elif isinstance(data, list):
-                # Handle old format: tasks are the list, user_info is default
                 print("Old tasks format detected. Converting and initializing points to 0.")
                 tasks_data = data
                 user_info = default_user_info
             else:
-                 # Unknown format
-                 print("Warning: Unknown data format in file. Starting fresh.")
-                 return [], default_user_info
+                print("Warning: Unknown data format in file. Starting fresh.")
+                return [], default_user_info
 
-            # Process tasks data (same as before)
             processed_tasks = []
             for task in tasks_data:
                 if task.get('due_datetime_str'):
@@ -68,14 +80,14 @@ def load_tasks(userid):
                     task['completed'] = False
                 if 'pomodoros_completed' not in task:
                     task['pomodoros_completed'] = 0
-                processed_tasks.append(task) # Append processed task
+                processed_tasks.append(task)
 
             print(f"Loaded {len(processed_tasks)} tasks. Current points: {user_info.get('points', 0)}")
             return processed_tasks, user_info
 
     except (json.JSONDecodeError, IOError, TypeError) as e:
         print(f"Error loading data from {filename}: {e}. Starting with an empty list and 0 points.")
-        return [], default_user_info # Return defaults on error
+        return [], default_user_info
 
 def save_tasks(tasks, user_info, userid):
     """Saves tasks and user info to a user-specific JSON file."""
@@ -83,7 +95,6 @@ def save_tasks(tasks, user_info, userid):
     print(f"--- Saving data for user '{userid}' to {filename} ---")
 
     try:
-        # Prepare tasks for JSON serialization
         tasks_to_save = []
         for task in tasks:
             task_copy = task.copy()
@@ -94,7 +105,6 @@ def save_tasks(tasks, user_info, userid):
                  task_copy['pomodoros_completed'] = 0
             tasks_to_save.append(task_copy)
 
-        # Create the combined data structure
         data_to_save = {
             "user_info": user_info,
             "tasks": tasks_to_save
@@ -107,9 +117,8 @@ def save_tasks(tasks, user_info, userid):
     except IOError as e:
         print(f"Error saving data to {filename}: {e}")
 
-
 # --- display_agenda, add_task ---
-# (These functions remain unchanged as they only read/modify the tasks list)
+# (These functions remain unchanged)
 # --- [Paste unchanged display_agenda and add_task here] ---
 def display_agenda(tasks):
     """Sorts tasks and displays them grouped by day, including Pomodoro count."""
@@ -207,9 +216,9 @@ def add_task(tasks):
     tasks.append(new_task)
     print("Task added successfully!")
 
-# --- complete_task (Modified for Points) ---
+# --- complete_task (Modified for Points and Leveling) ---
 def complete_task(tasks, user_info):
-    """Lists incomplete tasks and marks the selected one as complete, awarding points."""
+    """Lists incomplete tasks, marks the selected one as complete, and handles points/leveling."""
     print("\n--- Mark Task as Complete ---")
     incomplete_tasks = [(i, task) for i, task in enumerate(tasks) if not task.get('completed', False)]
 
@@ -232,20 +241,24 @@ def complete_task(tasks, user_info):
         if choice in display_map:
             original_task_index = display_map[choice]
 
-            # --- Point Award Logic ---
-            # Check if the task is actually being marked complete (was not already)
             if not tasks[original_task_index].get('completed', False):
                 tasks[original_task_index]['completed'] = True
-                # Award points
                 points_earned = POINTS_PER_TASK
-                user_info['points'] = user_info.get('points', 0) + points_earned
+                old_points = user_info.get('points', 0)
+                old_level = calculate_level(old_points)  # Get level *before* adding points
+
+                user_info['points'] = old_points + points_earned # Add the points
+                new_points = user_info['points']
+                new_level = calculate_level(new_points)      # Get level *after* adding points
+
                 print(f"\nTask '{tasks[original_task_index]['title']}' marked as complete.")
                 print(f"Congratulations! You earned {points_earned} points.")
-                print(f"Total points: {user_info['points']}")
+                print(f"Total points: {new_points}")
+
+                if new_level > old_level:
+                    print(f"🎉🎉🎉 Level Up! 🎉🎉🎉  You are now Level {new_level}!")
             else:
-                # This case shouldn't happen if we only list incomplete tasks, but good failsafe
                 print(f"Task '{tasks[original_task_index]['title']}' was already complete.")
-            # --- End Point Award Logic ---
 
         else:
             print("Invalid choice.")
@@ -329,8 +342,14 @@ def start_pomodoro_cycle(task):
             break
 # --- End of pasted functions ---
 
+def calculate_level(points):
+    """Calculates the user's level based on their points and the level thresholds."""
+    for level, min_points in reversed(LEVEL_THRESHOLDS):
+        if points >= min_points:
+            return level
+    return 1  # Default to Level 1 if points are below the lowest threshold (shouldn't happen with our thresholds, but safe)
 
-# --- Main Application Loop (Updated for User Info & Points) ---
+# --- Main Application Loop (Updated for User Info, Points, and Level) ---
 if __name__ == "__main__":
     user_id = ""
     while not user_id:
@@ -338,13 +357,12 @@ if __name__ == "__main__":
         if not user_id:
             print("User ID cannot be empty.")
 
-    # Load tasks and user info for the specific user
     all_tasks, user_data = load_tasks(user_id)
 
     while True:
-        # Display current user and points in the menu header
         current_points = user_data.get('points', 0)
-        print(f"\n===== Task Agenda Menu [User: {user_id}] [Points: {current_points}] =====")
+        current_level = calculate_level(current_points) # Calculate level *every time* we display the menu
+        print(f"\n===== Task Agenda Menu [User: {user_id}] [Level: {current_level}] [Points: {current_points}] =====")
         print("1. View Agenda")
         print("2. Add Task")
         print("3. Complete Task")
@@ -359,16 +377,13 @@ if __name__ == "__main__":
         elif choice == '2':
             add_task(all_tasks)
         elif choice == '3':
-            # Pass user_data to complete_task so it can update points
-            complete_task(all_tasks, user_data)
+            complete_task(all_tasks, user_data) # Pass user_data
         elif choice == '4':
-            # Pomodoro doesn't directly affect points (completion does)
             selected_task = select_task_for_pomodoro(all_tasks)
             if selected_task:
                 start_pomodoro_cycle(selected_task)
         elif choice == '5':
-            # Save both tasks and updated user_data (with points)
-            save_tasks(all_tasks, user_data, user_id)
+            save_tasks(all_tasks, user_data, user_id) # Pass user_data
             print("Data saved. Exiting.")
             break
         elif choice == '6':
