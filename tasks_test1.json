@@ -1,7 +1,7 @@
 {
     "user_info": {
         "userid": "test1",
-        "points": 10
+        "points": 20
     },
     "tasks": [
         {
@@ -15,6 +15,14 @@
         {
             "id": 2,
             "title": "blob",
+            "project": null,
+            "priority": null,
+            "completed": true,
+            "pomodoros_completed": 0
+        },
+        {
+            "id": 1744513908174,
+            "title": "s",
             "project": null,
             "priority": null,
             "completed": true,
