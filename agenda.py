@@ -472,7 +472,7 @@ def add_task_interaction(user):
         if 1 <= priority_val <= 3:
             priority = priority_val
         else:
-             print_warning("Priority must be between 1 and 3. Ignoring.")
+            print_warning("Priority must be between 1 and 3. Ignoring.")
     elif priority_str:
         # Only warn if non-empty invalid input was given
         print_warning("Invalid priority value. Ignoring.")
@@ -538,9 +538,9 @@ def prompt_select_tasks(
                 invalid_inputs.append(f"'{part}' (not a number)")
         # Only proceed if there were no invalid inputs
         if not invalid_inputs:
-             selected_tasks = [
+            selected_tasks = [
                 display_map[idx] for idx in sorted(list(chosen_display_indices))
-             ]
+            ]
 
     else:  # Single selection
         if choice_str.isdigit():
@@ -827,8 +827,8 @@ def start_pomodoro_cycle(task):
             print("Pomodoro cycle interrupted.")
             # Optionally revert status if auto-set and cancelled?
             if status_changed_by_pomo and task.status == Config.STATUS_IN_PROGRESS:
-                 task.set_status(Config.STATUS_TODO)
-                 print_info(f"Task status reverted to '{Config.STATUS_TODO}'.")
+                task.set_status(Config.STATUS_TODO)
+                print_info(f"Task status reverted to '{Config.STATUS_TODO}'.")
             break  # Exit cycle loop
 
 
