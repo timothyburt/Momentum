@@ -19,10 +19,10 @@ init(autoreset=True)
 class Config:
     """Groups configuration constants for the application."""
 
-    POMODORO_WORK_MINUTES = 25
-    POMODORO_SHORT_BREAK_MINUTES = 5
-    POMODORO_LONG_BREAK_MINUTES = 15
-    POMODOROS_BEFORE_LONG_BREAK = 4
+    POMODORO_WORK_MINUTES = 5
+    POMODORO_SHORT_BREAK_MINUTES = 2
+    POMODORO_LONG_BREAK_MINUTES = 5
+    POMODOROS_BEFORE_LONG_BREAK = 2
     POINTS_PER_TASK = 10
     # Tiered level thresholds: (level, minimum_points)
     LEVEL_THRESHOLDS = [
