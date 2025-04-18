@@ -8,7 +8,7 @@ from utils import *
 def main(page: ft.Page):
 	page.title = "Activtity Planner App"
 	page.vertical_alignment = ft.MainAxisAlignment.START
-	page.bgcolor = ft.Colors.BLACK
+	page.bgcolor = "#0d0d0d"
 	page.adaptive = True
 	page.padding = 0
 	page.window.height = 700
@@ -25,7 +25,12 @@ def main(page: ft.Page):
 	)
 
 	# Create a column to stack the username and byline
-	username = ft.Text("Blabber Fatmouth", size=12, weight=ft.FontWeight.BOLD, color=ft.Colors.GREEN)
+	username = ft.Text(
+		"Blabber Fatmouth".upper(),
+		size=12,
+		weight=ft.FontWeight.BOLD,
+		color=ft.Colors.GREEN,
+	)
 	title = ft.Text("Novice", size=10, color=ft.Colors.GREY_400)
 	user_info = ft.Column(
 		[
@@ -71,11 +76,16 @@ def main(page: ft.Page):
 	daily_overview = ft.Container(
 		content=ft.Column(
 			[
-				ft.Text(
-					"Daily Progress",
-					weight=ft.FontWeight.BOLD,
-					color=ft.Colors.WHITE,
-					size=14,
+				ft.Row(
+					[
+						ft.Text(
+							"Daily Progress",
+							weight=ft.FontWeight.BOLD,
+							color=ft.Colors.WHITE,
+							size=14,
+							),
+					],
+					alignment=ft.MainAxisAlignment.SPACE_BETWEEN,  # Space between text and progress bar
 				),
 				ft.Row(
 					[
@@ -83,34 +93,43 @@ def main(page: ft.Page):
 						ft.Column(
 							[
 								ft.Text("Tasks", color=ft.Colors.GREY_400, size=10),
-								ft.Text("50/100", weight=ft.FontWeight.BOLD, size=8, color=ft.Colors.GREEN),
+								ft.Text("50%", weight=ft.FontWeight.BOLD, size=8, color=ft.Colors.GREEN),
 								ft.Text("Goals", color=ft.Colors.GREY_400, size=10),
-								ft.Text("10/25", weight=ft.FontWeight.BOLD, size=8, color=ft.Colors.BLUE),
+								ft.Text("15%", weight=ft.FontWeight.BOLD, size=8, color=ft.Colors.BLUE),
 								ft.Text("Levels", color=ft.Colors.GREY_400, size=10),
-								ft.Text("5/100", weight=ft.FontWeight.BOLD, size=8, color=ft.Colors.RED),
+								ft.Text("5%", weight=ft.FontWeight.BOLD, size=8, color=ft.Colors.RED),
 							],
 							alignment=ft.MainAxisAlignment.START,
 							spacing=5,
 						),
-						# Bar Graph Column
+						# Bar Graph Column with Percentage Text
 						ft.Column(
 							[
-								ft.Container(
-									bgcolor=ft.Colors.GREEN,
-									height=10,
-									width=150,  # Example bar for "Tasks"
+								# First ProgressBar
+								ft.ProgressBar(
+									value=0.5,  # Set progress value (50%)
+									bgcolor=ft.Colors.GREY_800,  # Background color of the progress bar
+									color=ft.Colors.GREEN,  # Progress color
+									height=10,  # Height of the progress bar
+									width=150,  # Width of the progress bar
 									border_radius=10,
 								),
-								ft.Container(
-									bgcolor=ft.Colors.BLUE,
-									height=10,
-									width=75,  # Example bar for "Goals"
+								# Second ProgressBar
+								ft.ProgressBar(
+									value=0.4,  # Set progress value (40%)
+									bgcolor=ft.Colors.GREY_800,  # Background color of the progress bar
+									color=ft.Colors.BLUE,  # Progress color
+									height=10,  # Height of the progress bar
+									width=150,  # Width of the progress bar
 									border_radius=10,
 								),
-								ft.Container(
-									bgcolor=ft.Colors.RED,
-									height=10,
-									width=25,  # Example bar for "Levels"
+								# Third ProgressBar
+								ft.ProgressBar(
+									value=0.1,  # Set progress value (10%)
+									bgcolor=ft.Colors.GREY_800,  # Background color of the progress bar
+									color=ft.Colors.RED,  # Progress color
+									height=10,  # Height of the progress bar
+									width=150,  # Width of the progress bar
 									border_radius=10,
 								),
 							],
@@ -286,7 +305,7 @@ def main(page: ft.Page):
 								alignment=ft.MainAxisAlignment.START,
 							),
 							padding=ft.padding.all(10),
-							bgcolor=ft.Colors.GREY_800,
+							bgcolor=ft.Colors.GREY_900,
 							border_radius=ft.border_radius.all(10),
 						),
 						ft.Container(
@@ -302,7 +321,7 @@ def main(page: ft.Page):
 								alignment=ft.MainAxisAlignment.START,
 							),
 							padding=ft.padding.all(10),
-							bgcolor=ft.Colors.GREY_800,
+							bgcolor=ft.Colors.GREY_900,
 							border_radius=ft.border_radius.all(10),
 						),
 						ft.Container(
@@ -318,7 +337,7 @@ def main(page: ft.Page):
 								alignment=ft.MainAxisAlignment.START,
 							),
 							padding=ft.padding.all(10),
-							bgcolor=ft.Colors.GREY_800,
+							bgcolor=ft.Colors.GREY_900,
 							border_radius=ft.border_radius.all(10),
 						),
 					],
@@ -330,10 +349,11 @@ def main(page: ft.Page):
 		padding=ft.padding.only(left=25, right=25, top=20),  # Add padding around the section
 	)
 
-	# Bottom navigation bar with rounded corners
+	# Bottom navigation bar with rounded corners and gradient
 	navigation_bar = ft.Container(
 		content=ft.NavigationBar(
-			bgcolor=ft.Colors.GREY_900,
+			bgcolor="#0d0d0d",
+			indicator_color=ft.Colors.GREY_900,
 			destinations=[
 				ft.NavigationBarDestination(
 					icon=ft.Icons.HOME_ROUNDED,
@@ -353,7 +373,8 @@ def main(page: ft.Page):
 				),
 			]
 		),
-		border_radius=ft.border_radius.only(top_left=20,top_right=20)
+		height=60,
+		border_radius=ft.border_radius.only(top_left=20, top_right=20),
 	)
 
 	# Add the header row, search bar, daily overview, skills section, recommended tasks, and navigation bar to the page
