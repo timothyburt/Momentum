@@ -1,6 +1,6 @@
 import flet as ft
 
-def home_page(page: ft.Page):  # Pass the page object to allow navigation
+def home_page(page: ft.Page, navigation_bar):  # Pass the navigation_bar object
     # Create the avatar, username, and notification bell layout
     avatar = ft.CircleAvatar(
         foreground_image_src="https://avatars.githubusercontent.com/u/5041459?s=88&v=4",
@@ -149,7 +149,10 @@ def home_page(page: ft.Page):  # Pass the page object to allow navigation
                         ),
                         ft.TextButton(
                             "View All",
-                            on_click=lambda e: page.go("/skills"),  # Navigate to the Skills page
+                            on_click=lambda e: [
+                                setattr(navigation_bar, "selected_index", 3),  # Update the selected index to Skills
+                                page.go("/skills"),  # Navigate to the Skills page
+                            ],
                             style=ft.ButtonStyle(
                                 color=ft.Colors.GREEN,
                                 padding=ft.padding.only(left=10, right=10),
