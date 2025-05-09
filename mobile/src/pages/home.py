@@ -1,5 +1,5 @@
 import flet as ft
-from settings.themes import ThemeFactory
+from Settings.themes import ThemeFactory
 
 class HomePage:
     def __init__(self, page: ft.Page, navigation_bar, current_theme):
