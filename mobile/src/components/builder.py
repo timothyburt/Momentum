@@ -5,8 +5,9 @@ from pages.focus import FocusPage
 from pages.skills import SkillsPage
 from components.header import Header
 from components.nav import NavigationBar
-from settings.themes import ThemeFactory
+from Settings.themes import ThemeFactory
 from components.page import Page
+from Settings.config import Config as cogs  # Use alias cogs
 
 class PageBuilder(Page):
     def __init__(self, app):

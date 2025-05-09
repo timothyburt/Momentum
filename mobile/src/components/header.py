@@ -1,6 +1,7 @@
 # Imports
 import flet as ft
-from settings.themes import ThemeFactory
+from Settings.themes import ThemeFactory  # Updated path
+from Settings.config import Config as cogs  # Use alias cogs
 from components.page import Page
 from components.builder import PageBuilder
 
