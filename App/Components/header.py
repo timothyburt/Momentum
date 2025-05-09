@@ -4,26 +4,28 @@ from Engine.themes import ThemeFactory
 from Engine.settings import Config as cogs
 
 class Header:
-    def __init__(self, app):
+    def __init__(self, app, current_theme):
         self.app = app
-        self.page = app.page  # Use the app's page instance
-        self.current_theme = app.current_theme  # Get current theme from the app instance
+        self.page = ft.Page
+        self.current_theme = ThemeFactory.dark_theme() if current_theme == "dark" else ThemeFactory.light_theme()
 
+    # Ensure the `view_profile` method navigates to the `/profile` route
     def view_profile(self):
-        self.page.snack_bar = ft.SnackBar(ft.Text("Viewing Profile"))
-        self.page.snack_bar.open()
+        self.page.go("/profile")  # Navigate to the profile route
         self.page.update()
 
-    def open_settings(self):
-        self.page.snack_bar = ft.SnackBar(ft.Text("Opening Settings"))
+    def toggle_theme(self):
+        self.page.snack_bar = ft.SnackBar(ft.Text("Themes: Switching theme."))
         self.page.snack_bar.open()
+        self.app.page_builder.toggle_theme()  # Call the toggle_theme method from PageBuilder
         self.page.update()
 
     def logout(self):
-        self.page.snack_bar = ft.SnackBar(ft.Text("Logging Out"))
+        self.page.snack_bar = ft.SnackBar(ft.Text("Logout: You have been logged out."))
         self.page.snack_bar.open()
         self.page.update()
 
+    # Modify the snack menu to include Profile, Themes, and Logout
     def create_header(self):
         popup_menu = ft.PopupMenuButton(
             content=ft.CircleAvatar(
@@ -35,16 +37,13 @@ class Header:
             ),
             items=[
                 ft.PopupMenuItem(
-                    text="View Profile",
+                    text="Profile",
                     on_click=lambda e: self.view_profile(),
                 ),
                 ft.PopupMenuItem(
-                    text="Settings",
-                    on_click=lambda e: self.open_settings(),
-                ),
-                ft.PopupMenuItem(
-                    text="Light Theme" if self.current_theme == ThemeFactory.dark_theme() else "Dark Theme",
-                    icon=ft.Icons.LIGHT_MODE if self.current_theme == ThemeFactory.dark_theme() else ft.Icons.DARK_MODE
+                    text="Themes",
+                    icon=ft.Icons.PALETTE,
+                    on_click=lambda e: self.toggle_theme(),
                 ),
                 ft.PopupMenuItem(
                     text="Logout",

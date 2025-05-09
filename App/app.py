@@ -2,13 +2,12 @@ import flet as ft
 from Engine.themes import ThemeFactory
 from Engine.page import Page
 from Engine.builder import PageBuilder
-from Engine.settings import Config as cogs
 
 class MomentumApp:
     def __init__(self, page: ft.Page):
         self.page = page # Use Page class to initialize ft.Page
         self.current_theme = ThemeFactory.dark_theme()  # Use ThemeFactory for dark theme
-        self.page_builder = PageBuilder(self)  # Use PageBuilder class
+        self.page_builder = PageBuilder(self, page)  # Pass the MomentumApp instance to PageBuilder
 
     def route_change(self, route):
         self.page.views.clear()

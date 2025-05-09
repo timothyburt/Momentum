@@ -24,6 +24,5 @@ class SkillsPage:
                 alignment=ft.MainAxisAlignment.CENTER,
                 spacing=20,
             ),
-            alignment=ft.alignment.center,
             expand=True,
         )

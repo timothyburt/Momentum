@@ -4,10 +4,10 @@ from Engine.themes import ThemeFactory
 from Engine.settings import Config as cogs
 
 class NavigationBar:
-    def __init__(self, app):
+    def __init__(self, app, current_theme):
         self.app = app
-        self.page = app.page  # Use the app's page instance
-        self.current_theme = app.current_theme  # Get current theme from the app instance
+        self.page = ft.Page
+        self.current_theme = ThemeFactory.dark_theme() if current_theme == "dark" else ThemeFactory.light_theme()
         self.navigation_bar = None
         self.navigation_bar_container = None
 
@@ -44,15 +44,18 @@ class NavigationBar:
             border_radius=10
         )
 
+    # Ensure the `navigate_to` method correctly updates the route
     def navigate_to(self, index):
+        print(f"Selected index: {index}")  # Debugging statement to log the selected index
         if index == 0:
-            self.page.go("/")
+            self.page.go(route="/")
         elif index == 1:
-            self.page.go("/activities")
+            self.page.go(route="/activities")
         elif index == 2:
-            self.page.go("/focus")
+            self.page.go(route="/focus")
         elif index == 3:
-            self.page.go("/skills")
+            self.page.go(route="/skills")
+        self.page.update()  # Ensure the page is updated after navigation
 
     def get_navigation_bar_container(self):
         if not self.navigation_bar_container:

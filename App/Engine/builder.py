@@ -3,6 +3,7 @@ from Pages.home import HomePage
 from Pages.activities import ActivitiesPage
 from Pages.focus import FocusPage
 from Pages.skills import SkillsPage
+from User.profile import ProfilePage
 from Components.header import Header
 from Components.nav import NavigationBar
 from Engine.themes import ThemeFactory
@@ -10,13 +11,14 @@ from Engine.page import Page
 from Engine.settings import Config as cogs
 
 # Fix the TypeError by passing the required `page` argument to the Page class
-class PageBuilder(Page):
-    def __init__(self, app):
+class PageBuilder:
+    def __init__(self, app, page):
         self.app = app
-        super().__init__(app.page)  # Pass the `page` argument to the Page class
+        self.page = page
+        super().__init__()  # Pass the `page` argument to the Page class
         self.current_theme = ThemeFactory.dark_theme()  # Use ThemeFactory for dark theme
-        self.header = Header(app)
-        self.navigation_bar = NavigationBar(app)
+        self.header = Header(app, self.current_theme)
+        self.navigation_bar = NavigationBar(app, self.current_theme)
 
     def toggle_theme(self):
         self.current_theme = (
@@ -30,10 +32,17 @@ class PageBuilder(Page):
         self.page.views.append(self.build_page(self.page.route))  # Reapply the current route
         self.page.update()
 
+    # Ensure the `/profile` route is handled correctly in the `build_page` method
     def build_page(self, route):
-        current_theme = self.current_theme
-
-        if route == "/activities":
+        if route == "/profile":
+            from User.profile import ProfilePage
+            return ft.View(
+                route="/profile",
+                controls=[
+                    ProfilePage(self.page).build(),
+                ],
+            )
+        elif route == "/activities":
             return ft.View(
                 route="/activities",
                 controls=[
@@ -41,7 +50,7 @@ class PageBuilder(Page):
                         [
                             self.header.create_header(),
                             ft.Container(
-                                content=ActivitiesPage(current_theme).build(),
+                                content=ActivitiesPage(self.current_theme).build(),
                                 expand=True,
                             ),
                             self.navigation_bar.get_navigation_bar_container(),
@@ -58,7 +67,7 @@ class PageBuilder(Page):
                         [
                             self.header.create_header(),
                             ft.Container(
-                                content=FocusPage(current_theme).build(),
+                                content=FocusPage(self.current_theme).build(),
                                 expand=True,
                             ),
                             self.navigation_bar.get_navigation_bar_container(),
@@ -75,7 +84,7 @@ class PageBuilder(Page):
                         [
                             self.header.create_header(),
                             ft.Container(
-                                content=SkillsPage(current_theme).build(),
+                                content=SkillsPage(self.current_theme).build(),
                                 expand=True,
                             ),
                             self.navigation_bar.get_navigation_bar_container(),
@@ -92,7 +101,7 @@ class PageBuilder(Page):
                         [
                             self.header.create_header(),
                             ft.Container(
-                                content=HomePage(self.page, self.navigation_bar.navigation_bar, current_theme).build(),
+                                content=HomePage(self.page, self.navigation_bar.navigation_bar, self.current_theme).build(),
                                 expand=True,
                             ),
                             self.navigation_bar.get_navigation_bar_container(),
