@@ -1,20 +1,23 @@
 import flet as ft
-from pages.home import home_page
-from pages.activities import activities_page
-from pages.focus import focus_page
-from pages.skills import skills_page
-from settings.themes import light_theme, dark_theme
-from components.header import header_row
+from pages.home import HomePage
+from pages.activities import ActivitiesPage
+from pages.focus import FocusPage
+from pages.skills import SkillsPage
+from settings.themes import ThemeFactory
+from components.header import Header
 
 class MomentumApp:
     def __init__(self, page: ft.Page):
         self.page = page
-        self.current_theme = dark_theme
+        self.current_theme = ThemeFactory.dark_theme()  # Use ThemeFactory for dark theme
         self.navigation_bar = None
         self.navigation_bar_container = None
+        self.header = Header(self)  # Initialize the Header class
 
     def toggle_theme(self):
-        self.current_theme = light_theme if self.current_theme == dark_theme else dark_theme
+        self.current_theme = (
+            ThemeFactory.light_theme() if self.current_theme == ThemeFactory.dark_theme() else ThemeFactory.dark_theme()
+        )
         self.apply_theme()
 
     def apply_theme(self):
@@ -65,9 +68,9 @@ class MomentumApp:
                     controls=[
                         ft.Column(
                             [
-                                header_row(self.page, self.toggle_theme, self.current_theme),
+                                self.header.create_header(),  # Use Header class
                                 ft.Container(
-                                    content=activities_page(),
+                                    content=ActivitiesPage(),
                                     expand=True,
                                 ),
                                 ft.Container(
@@ -87,9 +90,9 @@ class MomentumApp:
                     controls=[
                         ft.Column(
                             [
-                                header_row(self.page, self.toggle_theme, self.current_theme),
+                                self.header.create_header(),  # Use Header class
                                 ft.Container(
-                                    content=focus_page(),
+                                    content=FocusPage(),
                                     expand=True,
                                 ),
                                 ft.Container(
@@ -109,9 +112,9 @@ class MomentumApp:
                     controls=[
                         ft.Column(
                             [
-                                header_row(self.page, self.toggle_theme, self.current_theme),
+                                self.header.create_header(),  # Use Header class
                                 ft.Container(
-                                    content=skills_page(),
+                                    content=SkillsPage(),
                                     expand=True,
                                 ),
                                 ft.Container(
@@ -131,9 +134,9 @@ class MomentumApp:
                     controls=[
                         ft.Column(
                             [
-                                header_row(self.page, self.toggle_theme, self.current_theme),
+                                self.header.create_header(),  # Use Header class
                                 ft.Container(
-                                    content=home_page(self.page, self.navigation_bar, self.current_theme),
+                                    content=HomePage(self.page, self.navigation_bar, self.current_theme),
                                     expand=True,
                                 ),
                                 ft.Container(
@@ -175,9 +178,9 @@ class MomentumApp:
                 controls=[
                     ft.Column(
                         [
-                            header_row(self.page, self.toggle_theme, self.current_theme),
+                            self.header.create_header(),  # Use Header class
                             ft.Container(
-                                content=home_page(self.page, self.navigation_bar, self.current_theme),
+                                content=HomePage(self.page, self.navigation_bar, self.current_theme),
                                 expand=True,
                             ),
                             ft.Container(
