@@ -43,11 +43,11 @@ def main(page: ft.Page):
 			),
 			ft.NavigationBarDestination(
 				icon=ft.Icons.CALENDAR_MONTH_ROUNDED,
-				label="Activities",
+				label="Activities",  # Updated label
 			),
 			ft.NavigationBarDestination(
 				icon=ft.Icons.TIMER,
-				label="Focus",
+				label="Focus",  # Updated label
 			),
 			ft.NavigationBarDestination(
 				icon=ft.Icons.BAR_CHART_ROUNDED,
