@@ -1,5 +1,6 @@
 import flet as ft
 from Engine.themes import ThemeFactory
+from Engine.settings import Config as cogs
 
 class HomePage:
     def __init__(self, page: ft.Page, navigation_bar, current_theme):
@@ -20,7 +21,7 @@ class HomePage:
                 text_size=10,
                 border_radius=10,
             ),
-            padding=ft.padding.only(left=25, right=25, bottom=20),
+            padding=ft.Padding(left=25, right=25, top=0, bottom=20),
         )
 
     def create_daily_overview(self):
@@ -115,7 +116,7 @@ class HomePage:
                                 ],
                                 style=ft.ButtonStyle(
                                     color=self.current_theme.accent_color,
-                                    padding=ft.padding.only(left=10, right=10),
+                                    padding=cogs.PAD_LR,
                                     text_style=ft.TextStyle(size=10),
                                 ),
                             ),
@@ -132,7 +133,7 @@ class HomePage:
                                             width=100,
                                             height=75,
                                             fit=ft.ImageFit.COVER,
-                                            border_radius=ft.border_radius.all(10),
+                                            border_radius=10,
                                         ),
                                         ft.Text(
                                             "Wellness",
@@ -143,7 +144,7 @@ class HomePage:
                                         ),
                                     ],
                                 ),
-                                padding=ft.padding.only(left=25),
+                                padding=cogs.PAD_25L,
                             ),
                             *[
                                 ft.Stack(
@@ -153,7 +154,7 @@ class HomePage:
                                             width=100,
                                             height=75,
                                             fit=ft.ImageFit.COVER,
-                                            border_radius=ft.border_radius.all(10),
+                                            border_radius=10,
                                         ),
                                         ft.Text(
                                             skill_name,
@@ -178,7 +179,7 @@ class HomePage:
                 ],
                 spacing=10,
             ),
-            padding=ft.padding.only(left=25, right=25),
+            padding=cogs.APP_SPACING,
         )
 
     def create_recommended_tasks(self):
@@ -205,9 +206,9 @@ class HomePage:
                                     ],
                                     alignment=ft.MainAxisAlignment.START,
                                 ),
-                                padding=ft.padding.all(10),
+                                padding=10,
                                 bgcolor=ft.Colors.GREY_900,
-                                border_radius=ft.border_radius.all(10),
+                                border_radius=10,
                             ),
                             ft.Container(
                                 content=ft.Row(
@@ -221,9 +222,9 @@ class HomePage:
                                     ],
                                     alignment=ft.MainAxisAlignment.START,
                                 ),
-                                padding=ft.padding.all(10),
+                                padding=10,
                                 bgcolor=ft.Colors.GREY_900,
-                                border_radius=ft.border_radius.all(10),
+                                border_radius=10,
                             ),
                             ft.Container(
                                 content=ft.Row(
@@ -237,9 +238,9 @@ class HomePage:
                                     ],
                                     alignment=ft.MainAxisAlignment.START,
                                 ),
-                                padding=ft.padding.all(10),
+                                padding=10,
                                 bgcolor=ft.Colors.GREY_900,
-                                border_radius=ft.border_radius.all(10),
+                                border_radius=10,
                             ),
                         ],
                         spacing=10,
@@ -247,7 +248,7 @@ class HomePage:
                 ],
                 spacing=10,
             ),
-            padding=ft.padding.only(left=25, right=25, top=20),
+            padding=ft.Padding(left=25, right=25, top=20, bottom=0),
         )
 
     def build(self):
@@ -256,7 +257,7 @@ class HomePage:
                 self.create_search_bar(),
                 ft.Container(
                     self.create_daily_overview(),
-                    padding=ft.padding.only(left=25, right=25),
+                    padding=cogs.APP_SPACING,
                 ),
                 self.create_skills_section(),
                 self.create_recommended_tasks(),

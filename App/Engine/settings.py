@@ -1,5 +1,8 @@
 # App Configuration File
 
+# Imports
+import flet as ft
+
 class Device:
 	@staticmethod
 	def mobile():
@@ -21,6 +24,9 @@ class Config:
 	APP_TITLE = "Momentum"  # App title
 	APP_PADDING = 0  # App-wide padding
 	APP_MARGIN = 0  # App-wide margin
+	APP_SPACING = ft.Padding(left=25, right=25, top=0, bottom=0)
+	PAD_25L = ft.Padding(left=25, right=0, top=0, bottom=0)
+	PAD_LR =ft.Padding(left=10, right=10, top=0, bottom=0)
 
 	@staticmethod
 	def get_device_dimensions(device_type):

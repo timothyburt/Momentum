@@ -39,7 +39,9 @@ class NavigationBar:
 
         self.navigation_bar_container = ft.Container(
             content=self.navigation_bar,
-            bgcolor=self.current_theme.nav_bgcolor  # Match the theme's navigation bar color
+            bgcolor=self.current_theme.nav_bgcolor,  # Match the theme's navigation bar color
+            padding=cogs.PAD_LR,
+            border_radius=10
         )
 
     def navigate_to(self, index):

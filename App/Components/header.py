@@ -85,5 +85,6 @@ class Header:
                 alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
                 vertical_alignment=ft.CrossAxisAlignment.CENTER,
             ),
-            padding=10,
+            padding=cogs.APP_SPACING,
+            border_radius=30,
         )
