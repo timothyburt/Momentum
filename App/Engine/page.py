@@ -2,6 +2,7 @@
 import flet as ft
 from .settings import Config as cogs, Device as viewport
 from .builder import Builder
+from .routes import Routes, RouteHandler
 
 class Page:
 	def __init__(self, page: ft.Page):
@@ -15,6 +16,7 @@ class Page:
 		self.page.window.height = device_dimensions["app_height"]
 		self.page.window.width = device_dimensions["app_width"]
 		self.page.window.resizable = device_dimensions["app_resizable"]
+		self.page.window.maximizable = device_dimensions["app_maximize"]
 
 		self.builder = Builder(self.page)  # Integrate with Builder
 
@@ -22,7 +24,4 @@ class Page:
 		return self.page
 
 	def handle_route_change(self, route):
-		"""Handles route changes dynamically using Builder."""
-		self.page.views.clear()
-		self.page.views.append(self.builder.build_page(route))
-		self.page.update()
+		RouteHandler.handle_route_change(self.page, self.builder, route)  # Delegate to Routes

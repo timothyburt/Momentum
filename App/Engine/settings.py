@@ -3,22 +3,22 @@
 class Device:
 	@staticmethod
 	def mobile():
-		return {"app_width": 350, "app_height": 700, "app_resizable": False}
+		return {"app_width": 350, "app_height": 700, "app_resizable": False, "app_maximize": False}
 
 	@staticmethod
 	def tablet():
-		return {"app_width": 768, "app_height": 1024, "app_resizable": False}
+		return {"app_width": 768, "app_height": 1024, "app_resizable": False, "app_maximize": False}
 
 	@staticmethod
 	def web():
-		return {"app_width": 1280, "app_height": 720, "app_resizable": True}
+		return {"app_width": 1280, "app_height": 720, "app_resizable": True, "app_maximize": True}
 
 	@staticmethod
 	def desktop():
-		return {"app_width": 1920, "app_height": 1080, "app_resizable": True}
+		return {"app_width": 1920, "app_height": 1080, "app_resizable": True, "app_maximize": True}
 
 class Config:
-	APP_TITLE = "Momentum App"  # App title
+	APP_TITLE = "Momentum"  # App title
 	APP_PADDING = 0  # App-wide padding
 	APP_MARGIN = 0  # App-wide margin
 
@@ -40,3 +40,4 @@ class Config:
 	APP_WIDTH = DEVICE["app_width"]
 	APP_HEIGHT = DEVICE["app_height"]
 	APP_RESIZABLE = DEVICE["app_resizable"]
+	APP_MAXIMIZE = DEVICE["app_maximize"]
