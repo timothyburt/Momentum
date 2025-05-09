@@ -1,7 +1,7 @@
 import flet as ft
-from Settings.themes import ThemeFactory
+from App.Engine.themes import ThemeFactory
 from components.page import Page
-from components.builder import PageBuilder
+from App.Engine.builder import PageBuilder
 from Settings.config import Config as cogs  # Use alias cogs
 
 class MomentumApp:

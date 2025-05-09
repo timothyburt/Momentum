@@ -1,25 +1,31 @@
-# Imports
-from Engine.page import Page
 import flet as ft
+from Engine.themes import ThemeFactory
+from Engine.page import Page
+from Engine.builder import Builder
+from Engine.settings import Config as cogs  # Use alias cogs
 
 class MomentumApp:
-	def __init__(self):
-		self.page = None  # Initialize page as None
+    def __init__(self):
+        self.page = Page().get_page()  # Use Page class to initialize ft.Page
+        self.current_theme = ThemeFactory.dark_theme()  # Use ThemeFactory for dark theme
+        self.page_builder = Builder(self)  # Use PageBuilder class
 
-	def setup_page(self, page: ft.Page):
-		self.page = Page(page).get_page()  # Pass the `page` argument to the Page class
-		self.page.window.resizable = self.page.window.resizable  # Set resizable value dynamically from the page file
-		self.page.window.maximizable = self.page.window.maximizable
+    def route_change(self, route):
+        self.page.views.clear()
+        self.page.views.append(self.page_builder.build_page(route))
+        self.page.update()
 
-		# Add any additional app logic here
+    def run(self):
+        self.page.on_route_change = self.route_change
+        self.page.views.append(self.builder.build_page("/"))
+        self.builder.apply_theme()
+        self.page.go(self.page.route)
 
-	def route_change(self, route):
-		self.page.handle_route_change(route)  # Page handles route changes using Routes
 
-	def run(self, page: ft.Page):
-		self.setup_page(page)  # Pass the page to setup_page
-		self.page.on_route_change = self.route_change
-		self.page.go(self.page.route)
+def main():
+    app = MomentumApp()
+    ft.app(target=app.run)
+
 
 if __name__ == "__main__":
-	ft.app(target=MomentumApp().run)  # Correctly pass the run method to ft.app
+    main()

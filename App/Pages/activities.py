@@ -1,5 +1,5 @@
 import flet as ft
-from Settings.themes import ThemeFactory
+from Engine.themes import ThemeFactory
 
 class ActivitiesPage:
     def __init__(self, current_theme):

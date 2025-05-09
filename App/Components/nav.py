@@ -1,9 +1,9 @@
 # Imports
 import flet as ft
-from Settings.themes import ThemeFactory  # Updated path
-from Settings.config import Config as cogs  # Use alias cogs
-from components.page import Page
-from components.builder import PageBuilder
+from Engine.themes import ThemeFactory  # Updated path
+from Engine.settings import Config as cogs  # Use alias cogs
+from Engine.page import Page
+from Engine.builder import PageBuilder
 
 class NavigationBar:
     def __init__(self, app):

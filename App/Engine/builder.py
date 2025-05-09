@@ -1,35 +1,102 @@
-# Create the Builder class to assist with dynamic Page construction
-from .routes import Routes
+import flet as ft
+from Pages.home import HomePage
+from Pages.activities import ActivitiesPage
+from Pages.focus import FocusPage
+from Pages.skills import SkillsPage
+from Components.header import Header
+from Components.nav import NavigationBar
+from Engine.themes import ThemeFactory
+from Engine.page import Page
+from Engine.settings import Config as cogs
 
-class Builder:
-	def __init__(self, page):
-		self.page = page
+class PageBuilder(Page):
+    def __init__(self, app):
+        super().__init__()  # Initialize the Page class
+        self.app = app
+        self.current_theme = ThemeFactory.dark_theme()  # Use ThemeFactory for dark theme
+        self.header = Header(app)
+        self.navigation_bar = NavigationBar(app)
 
-	def build_page(self, route):
-		"""Constructs a page dynamically based on the route."""
-		if route == Routes.HOME:
-			return self._build_home_page()
-		elif route == Routes.ACTIVITIES:
-			return self._build_activities_page()
-		elif route == Routes.FOCUS:
-			return self._build_focus_page()
-		elif route == Routes.SKILLS:
-			return self._build_skills_page()
-		else:
-			raise ValueError(f"Unknown route: {route}")
+    def toggle_theme(self):
+        self.current_theme = (
+            ThemeFactory.light_theme() if self.current_theme == ThemeFactory.dark_theme() else ThemeFactory.dark_theme()
+        )
+        self.apply_theme()
 
-	def _build_home_page(self):
-		# Logic to construct the Home page
-		return "Home Page Content"
+    def apply_theme(self):
+        self.page.bgcolor = self.current_theme.bgcolor
+        self.page.views.clear()  # Clear and re-render views to apply theme changes
+        self.page.views.append(self.build_page(self.page.route))  # Reapply the current route
+        self.page.update()
 
-	def _build_activities_page(self):
-		# Logic to construct the Activities page
-		return "Activities Page Content"
+    def build_page(self, route):
+        current_theme = self.current_theme
 
-	def _build_focus_page(self):
-		# Logic to construct the Focus page
-		return "Focus Page Content"
-
-	def _build_skills_page(self):
-		# Logic to construct the Skills page
-		return "Skills Page Content"
+        if route == "/activities":
+            return ft.View(
+                route="/activities",
+                controls=[
+                    ft.Column(
+                        [
+                            self.header.create_header(),
+                            ft.Container(
+                                content=ActivitiesPage(current_theme).build(),
+                                expand=True,
+                            ),
+                            self.navigation_bar.get_navigation_bar_container(),
+                        ],
+                        expand=True,
+                    ),
+                ],
+            )
+        elif route == "/focus":
+            return ft.View(
+                route="/focus",
+                controls=[
+                    ft.Column(
+                        [
+                            self.header.create_header(),
+                            ft.Container(
+                                content=FocusPage(current_theme).build(),
+                                expand=True,
+                            ),
+                            self.navigation_bar.get_navigation_bar_container(),
+                        ],
+                        expand=True,
+                    ),
+                ],
+            )
+        elif route == "/skills":
+            return ft.View(
+                route="/skills",
+                controls=[
+                    ft.Column(
+                        [
+                            self.header.create_header(),
+                            ft.Container(
+                                content=SkillsPage(current_theme).build(),
+                                expand=True,
+                            ),
+                            self.navigation_bar.get_navigation_bar_container(),
+                        ],
+                        expand=True,
+                    ),
+                ],
+            )
+        else:
+            return ft.View(
+                route="/",
+                controls=[
+                    ft.Column(
+                        [
+                            self.header.create_header(),
+                            ft.Container(
+                                content=HomePage(self.page, self.navigation_bar.navigation_bar, current_theme).build(),
+                                expand=True,
+                            ),
+                            self.navigation_bar.get_navigation_bar_container(),
+                        ],
+                        expand=True,
+                    ),
+                ],
+            )
