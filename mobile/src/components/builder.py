@@ -6,7 +6,7 @@ from pages.skills import SkillsPage
 from components.header import Header
 from components.nav import NavigationBar
 from settings.themes import ThemeFactory
-from components.page import Page  # Import Page from a separate file
+from components.page import Page
 
 class PageBuilder(Page):
     def __init__(self, app):

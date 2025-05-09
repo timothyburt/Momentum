@@ -1,11 +1,14 @@
+# Imports
 import flet as ft
 from settings.themes import ThemeFactory
+from components.page import Page
+from components.builder import PageBuilder
 
 class Header:
     def __init__(self, app):
         self.app = app
-        self.page = app.page
-        self.current_theme = app.current_theme
+        self.page = Page().get_page()
+        self.current_theme = PageBuilder(app).current_theme  # Get current theme from PageBuilder
 
     def view_profile(self):
         self.page.snack_bar = ft.SnackBar(ft.Text("Viewing Profile"))
@@ -43,7 +46,7 @@ class Header:
                 ft.PopupMenuItem(
                     text="Light Theme" if self.current_theme == ThemeFactory.dark_theme() else "Dark Theme",
                     icon=ft.Icons.LIGHT_MODE if self.current_theme == ThemeFactory.dark_theme() else ft.Icons.DARK_MODE,
-                    on_click=lambda e: self.app.toggle_theme(),
+                    on_click=lambda e: self.app.page_builder.toggle_theme(),  # Use the existing PageBuilder instance
                 ),
                 ft.PopupMenuItem(
                     text="Logout",
@@ -79,7 +82,7 @@ class Header:
                 [
                     popup_menu,
                     ft.Container(user_info, padding=2.5),
-                    ft.Container(notification_bell, alignment=ft.Alignment, expand=True),
+                    ft.Container(notification_bell, alignment=ft.alignment.center, expand=True),
                 ],
                 alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
                 vertical_alignment=ft.CrossAxisAlignment.CENTER,

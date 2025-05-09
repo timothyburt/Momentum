@@ -1,3 +1,5 @@
+# Themes Setting File
+
 class Theme:
     def __init__(self, bgcolor, text_color, indicator_color, nav_bgcolor, accent_color):
         self.bgcolor = bgcolor

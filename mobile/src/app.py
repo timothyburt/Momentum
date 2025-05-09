@@ -1,6 +1,6 @@
 import flet as ft
 from settings.themes import ThemeFactory
-from components.page import Page  # Import Page from the new file
+from components.page import Page
 from components.builder import PageBuilder
 
 class MomentumApp:

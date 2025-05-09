@@ -1,12 +1,14 @@
+# Imports
 import flet as ft
 from settings.themes import ThemeFactory
-from components.page import Page  # Import Page from the new file
+from components.page import Page
+from components.builder import PageBuilder
 
 class NavigationBar:
     def __init__(self, app):
         self.app = app
         self.page = Page().get_page()  # Use Page class to initialize ft.Page
-        self.current_theme = app.current_theme  # Directly use the app's current theme
+        self.current_theme = PageBuilder(app).current_theme  # Get current theme from PageBuilder
         self.navigation_bar = None
         self.navigation_bar_container = None
 

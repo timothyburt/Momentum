@@ -1,4 +1,6 @@
+# Imports
 import flet as ft
+from Settings.config import Config as cogs
 
 class Page:
     def __init__(self):
@@ -6,8 +8,8 @@ class Page:
         self.page.title = "Momentum App"
         self.page.vertical_alignment = ft.MainAxisAlignment.START
         self.page.padding = 0
-        self.page.window.height = 700
-        self.page.window.width = 350
+        self.page.window.height = cogs.APP_HEIGHT  # Use Config for height
+        self.page.window.width = cogs.APP_WIDTH  # Use Config for width
         self.page.window.resizable = False
 
     def get_page(self):
