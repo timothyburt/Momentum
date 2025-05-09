@@ -61,9 +61,7 @@ def main(page: ft.Page):
 	# Wrap the navigation bar in a container with rounded corners
 	navigation_bar_container = ft.Container(
 		content=navigation_bar,
-		border_radius=ft.border_radius.all(15),  # Add rounded corners
-		bgcolor=current_theme.nav_bgcolor,  # Match the theme's navigation bar color
-		padding=ft.padding.all(5),  # Add padding around the navigation bar
+		bgcolor=current_theme.nav_bgcolor  # Match the theme's navigation bar color
 	)
 
 	# Function to handle route changes
