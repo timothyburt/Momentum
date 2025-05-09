@@ -25,7 +25,7 @@ def main(page: ft.Page):
 		route_change(page.route)  # Reapply the current route
 		page.update()
 
-	page.title = "Activity Planner App"
+	page.title = "Momentum App"
 	page.vertical_alignment = ft.MainAxisAlignment.START
 	page.padding = 0
 	page.window.height = 700

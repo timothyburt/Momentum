@@ -126,24 +126,51 @@ def home_page(page: ft.Page, navigation_bar, current_theme):
 				ft.Row(
 					controls=[
 						ft.Container(
-							content=ft.Image(
-								src=f"https://picsum.photos/200/200?0",
-								width=100,
-								height=75,
-								fit=ft.ImageFit.COVER,
-								border_radius=ft.border_radius.all(10),
+							content=ft.Stack(
+								controls=[
+									ft.Image(
+										src=f"https://picsum.photos/200/200?0",
+										width=100,
+										height=75,
+										fit=ft.ImageFit.COVER,
+										border_radius=ft.border_radius.all(10),
+									),
+									ft.Text(
+										"Wellness",
+										size=12,
+										color=ft.Colors.WHITE,
+										weight=ft.FontWeight.BOLD,
+										text_align=ft.TextAlign.CENTER,  # Corrected argument
+									),
+								],
 							),
 							padding=ft.padding.only(left=25),
 						),
 						*[
-							ft.Image(
-								src=f"https://picsum.photos/200/200?{i}",
-								width=100,
-								height=75,
-								fit=ft.ImageFit.COVER,
-								border_radius=ft.border_radius.all(10),
+							ft.Stack(
+								controls=[
+									ft.Image(
+										src=f"https://picsum.photos/200/200?{i}",
+										width=100,
+										height=75,
+										fit=ft.ImageFit.COVER,
+										border_radius=ft.border_radius.all(10),
+									),
+									ft.Text(
+										skill_name,
+										size=12,
+										color=ft.Colors.WHITE,
+										weight=ft.FontWeight.BOLD,
+										text_align=ft.TextAlign.CENTER,  # Corrected argument
+									),
+								],
 							)
-							for i in range(1, 5)  # Add more images for scrolling
+							for i, skill_name in enumerate([
+								"Mental Health",
+								"Career",
+								"Fitness",
+								"Habits",
+							], start=1)
 						],
 					],
 					alignment=ft.MainAxisAlignment.START,
