@@ -2,9 +2,10 @@
 import flet as ft
 from .settings import Config as cogs, Device as viewport
 
+# Fix the Page class to correctly use an ft.Page object
 class Page:
-	def __init__(self):
-		self.page = Page()  # Use the existing ft.Page object passed as an argument
+	def __init__(self, page: ft.Page):
+		self.page = page  # Use the existing ft.Page object passed as an argument
 		self.page.title = cogs.APP_TITLE
 		self.page.vertical_alignment = ft.MainAxisAlignment.START
 		self.page.padding = cogs.APP_PADDING

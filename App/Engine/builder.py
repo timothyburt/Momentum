@@ -9,10 +9,11 @@ from Engine.themes import ThemeFactory
 from Engine.page import Page
 from Engine.settings import Config as cogs
 
+# Fix the TypeError by passing the required `page` argument to the Page class
 class PageBuilder(Page):
     def __init__(self, app):
-        super().__init__()  # Initialize the Page class
         self.app = app
+        super().__init__(app.page)  # Pass the `page` argument to the Page class
         self.current_theme = ThemeFactory.dark_theme()  # Use ThemeFactory for dark theme
         self.header = Header(app)
         self.navigation_bar = NavigationBar(app)

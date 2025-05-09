@@ -1,15 +1,13 @@
 # Imports
 import flet as ft
-from Engine.themes import ThemeFactory  # Updated path
-from Engine.settings import Config as cogs  # Use alias cogs
-from Engine.page import Page
-from Engine.builder import PageBuilder
+from Engine.themes import ThemeFactory
+from Engine.settings import Config as cogs
 
 class NavigationBar:
     def __init__(self, app):
         self.app = app
-        self.page = Page().get_page()  # Use Page class to initialize ft.Page
-        self.current_theme = PageBuilder(app).current_theme  # Get current theme from PageBuilder
+        self.page = app.page  # Use the app's page instance
+        self.current_theme = app.current_theme  # Get current theme from the app instance
         self.navigation_bar = None
         self.navigation_bar_container = None
 

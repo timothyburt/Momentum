@@ -1,15 +1,13 @@
 # Imports
 import flet as ft
-from Engine.themes import ThemeFactory  # Updated path
-from Engine.settings import Config as cogs  # Use alias cogs
-from Engine.page import Page
-from Engine.builder import PageBuilder
+from Engine.themes import ThemeFactory
+from Engine.settings import Config as cogs
 
 class Header:
     def __init__(self, app):
         self.app = app
-        self.page = Page().get_page()
-        self.current_theme = PageBuilder(app).current_theme  # Get current theme from PageBuilder
+        self.page = app.page  # Use the app's page instance
+        self.current_theme = app.current_theme  # Get current theme from the app instance
 
     def view_profile(self):
         self.page.snack_bar = ft.SnackBar(ft.Text("Viewing Profile"))
@@ -46,8 +44,7 @@ class Header:
                 ),
                 ft.PopupMenuItem(
                     text="Light Theme" if self.current_theme == ThemeFactory.dark_theme() else "Dark Theme",
-                    icon=ft.Icons.LIGHT_MODE if self.current_theme == ThemeFactory.dark_theme() else ft.Icons.DARK_MODE,
-                    on_click=lambda e: self.app.page_builder.toggle_theme(),  # Use the existing PageBuilder instance
+                    icon=ft.Icons.LIGHT_MODE if self.current_theme == ThemeFactory.dark_theme() else ft.Icons.DARK_MODE
                 ),
                 ft.PopupMenuItem(
                     text="Logout",
@@ -83,7 +80,7 @@ class Header:
                 [
                     popup_menu,
                     ft.Container(user_info, padding=2.5),
-                    ft.Container(notification_bell, alignment=ft.alignment.center, expand=True),
+                    ft.Container(notification_bell,expand=True),
                 ],
                 alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
                 vertical_alignment=ft.CrossAxisAlignment.CENTER,
