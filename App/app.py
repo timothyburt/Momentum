@@ -6,6 +6,8 @@ from Engine.builder import PageBuilder
 class MomentumApp:
     def __init__(self, page: ft.Page):
         self.page = page # Use Page class to initialize ft.Page
+        if not isinstance(self.page, ft.Page):
+            raise TypeError("The `page` argument must be an instance of `ft.Page`.")
         self.current_theme = ThemeFactory.dark_theme()  # Use ThemeFactory for dark theme
         self.page_builder = PageBuilder(self, page)  # Pass the MomentumApp instance to PageBuilder
 

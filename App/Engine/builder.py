@@ -10,30 +10,15 @@ from Engine.themes import ThemeFactory
 from Engine.page import Page
 from Engine.settings import Config as cogs
 
-# Fix the TypeError by passing the required `page` argument to the Page class
-class PageBuilder:
-    def __init__(self, app, page):
+class Routes:
+    def __init__(self, app, page, current_theme, header, navigation_bar):
         self.app = app
         self.page = page
-        super().__init__()  # Pass the `page` argument to the Page class
-        self.current_theme = ThemeFactory.dark_theme()  # Use ThemeFactory for dark theme
-        self.header = Header(app, self.current_theme)
-        self.navigation_bar = NavigationBar(app, self.current_theme)
+        self.current_theme = current_theme
+        self.header = header
+        self.navigation_bar = navigation_bar
 
-    def toggle_theme(self):
-        self.current_theme = (
-            ThemeFactory.light_theme() if self.current_theme == ThemeFactory.dark_theme() else ThemeFactory.dark_theme()
-        )
-        self.apply_theme()
-
-    def apply_theme(self):
-        self.page.bgcolor = self.current_theme.bgcolor
-        self.page.views.clear()  # Clear and re-render views to apply theme changes
-        self.page.views.append(self.build_page(self.page.route))  # Reapply the current route
-        self.page.update()
-
-    # Ensure the `/profile` route is handled correctly in the `build_page` method
-    def build_page(self, route):
+    def handle_route(self, route):
         if route == "/profile":
             from User.profile import ProfilePage
             return ft.View(
@@ -110,3 +95,28 @@ class PageBuilder:
                     ),
                 ],
             )
+
+class PageBuilder:
+    def __init__(self, app, page:ft.Page):
+        self.app = app
+        self.page = page
+        super().__init__()
+        self.current_theme = ThemeFactory.dark_theme()
+        self.header = Header(app, self.current_theme)
+        self.navigation_bar = NavigationBar(app, self.current_theme)
+        self.routes = Routes(app, page, self.current_theme, self.header, self.navigation_bar)
+
+    def toggle_theme(self):
+        self.current_theme = (
+            ThemeFactory.light_theme() if self.current_theme == ThemeFactory.dark_theme() else ThemeFactory.dark_theme()
+        )
+        self.apply_theme()
+
+    def apply_theme(self):
+        self.page.bgcolor = self.current_theme.bgcolor
+        self.page.views.clear()
+        self.page.views.append(self.build_page(self.page.route))
+        self.page.update()
+
+    def build_page(self, route):
+        return self.routes.handle_route(route)

@@ -34,7 +34,7 @@ class NavigationBar:
                 ),
             ],
             selected_index=0,  # Default to the first tab
-            on_change=lambda e: self.navigate_to(e.control.selected_index),  # Handle navigation
+            on_change=lambda e: self.log_and_navigate(e),  # Handle navigation with logging
         )
 
         self.navigation_bar_container = ft.Container(
@@ -48,14 +48,18 @@ class NavigationBar:
     def navigate_to(self, index):
         print(f"Selected index: {index}")  # Debugging statement to log the selected index
         if index == 0:
-            self.page.go(route="/")
+            self.page.go("/")
         elif index == 1:
-            self.page.go(route="/activities")
+            self.page.go("/activities")
         elif index == 2:
-            self.page.go(route="/focus")
+            self.page.go("/focus")
         elif index == 3:
-            self.page.go(route="/skills")
+            self.page.go("/skills")
         self.page.update()  # Ensure the page is updated after navigation
+
+    def log_and_navigate(self, e):
+        print(f"NavigationBar on_change triggered. New selected index: {e.control.selected_index}")
+        self.navigate_to(e.control.selected_index)
 
     def get_navigation_bar_container(self):
         if not self.navigation_bar_container:
