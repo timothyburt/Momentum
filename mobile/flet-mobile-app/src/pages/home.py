@@ -1,6 +1,7 @@
 import flet as ft
+from settings.themes import light_theme, dark_theme
 
-def home_page(page: ft.Page, navigation_bar):
+def home_page(page: ft.Page, navigation_bar, current_theme):
 
 	# Create a search bar
 	search_bar = ft.Container(
@@ -114,7 +115,7 @@ def home_page(page: ft.Page, navigation_bar):
 								page.go("/skills"),  # Navigate to the Skills page
 							],
 							style=ft.ButtonStyle(
-								color=ft.Colors.GREEN,
+								color=current_theme.accent_color,  # Use the accent color from the theme
 								padding=ft.padding.only(left=10, right=10),
 								text_style=ft.TextStyle(size=10),
 							),
