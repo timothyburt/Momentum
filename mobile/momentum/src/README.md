@@ -1,6 +1,6 @@
-# Planner App
+# Momentum
 
-Planner App is a productivity tool designed to help users organize their tasks efficiently. It combines an agenda view with a Pomodoro timer to enhance focus and time management.
+Momentum is a productivity tool designed to help users organize their tasks efficiently. It combines an agenda view with a Pomodoro timer to enhance focus and time management.
 
 ## Features
 - **Agenda View**: Plan your day with a clear and organized agenda.
@@ -24,7 +24,7 @@ Planner App is a productivity tool designed to help users organize their tasks e
    ```
 2. Navigate to the mobile app directory:
    ```bash
-   cd mobile/flet-mobile-app
+   cd mobile/momentum
    ```
 3. Install dependencies:
    ```bash
