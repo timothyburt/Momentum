@@ -1,6 +1,7 @@
 import flet as ft
 from Engine.themes import ThemeFactory
 from Engine.settings import Config as cogs
+from Components.widgets import Widgets
 
 class HomePage:
     def __init__(self, page: ft.Page, navigation_bar, current_theme):
@@ -8,21 +9,8 @@ class HomePage:
         self.navigation_bar = navigation_bar
         self.current_theme = ThemeFactory.dark_theme() if current_theme == "dark" else ThemeFactory.light_theme()
 
-    def create_search_bar(self):
-        return ft.Container(
-            content=ft.TextField(
-                hint_text="Search Goals, Tasks, Workouts, etc",
-                suffix_icon=ft.Icons.SEARCH,
-                focused_border_color=ft.Colors.GREEN,
-                bgcolor=ft.Colors.GREY_900,
-                cursor_color=ft.Colors.WHITE,
-                color=ft.Colors.WHITE,
-                height=30,
-                text_size=10,
-                border_radius=10,
-            ),
-            padding=ft.Padding(left=25, right=25, top=0, bottom=20),
-        )
+    def add_widgets(self):
+        return Widgets.search_bar()
 
     def create_daily_overview(self):
         return ft.Container(
@@ -254,7 +242,7 @@ class HomePage:
     def build(self):
         return ft.Column(
             [
-                self.create_search_bar(),
+                self.add_widgets(),
                 ft.Container(
                     self.create_daily_overview(),
                     padding=cogs.APP_SPACING,
