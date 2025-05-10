@@ -15,6 +15,5 @@ class ActivitiesPage:
                 alignment=ft.MainAxisAlignment.CENTER,
                 spacing=10,
             ),
-            alignment=ft.alignment.center,
             expand=True,
         )

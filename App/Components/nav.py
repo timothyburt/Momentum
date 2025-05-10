@@ -6,7 +6,7 @@ from Engine.settings import Config as cogs
 class NavigationBar:
     def __init__(self, app, current_theme):
         self.app = app
-        self.page = ft.Page
+        self.page = app.page  # Use the app's page instance
         self.current_theme = ThemeFactory.dark_theme() if current_theme == "dark" else ThemeFactory.light_theme()
         self.navigation_bar = None
         self.navigation_bar_container = None
